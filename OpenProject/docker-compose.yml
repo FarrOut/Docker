@@ -1,0 +1,32 @@
+version:                      "3.5"
+
+volumes:
+  openproject-db:
+
+networks:
+  openproject-net:
+    driver: bridge
+    attachable: true
+
+services:
+
+# Open Project
+  openproject:
+    image:                    openproject/community:7
+    ports:
+      - 10000:80
+    networks:
+      - openproject-net
+    volumes:
+      - /mnt/nfs-share/openproject:/var/db/openproject
+      - openproject-db:/var/db/openproject
+    deploy:
+      restart_policy:
+        condition:            on-failure
+        delay:                10s
+        window:               30s
+    environment:
+      # DATABASE_URL:           "postgres://admin:somuchstoragesuchwow@openproject:5432/postgres?pool=10&encoding=unicode&timeout=5000&reconnect=true"
+      SECRET_KEY_BASE:        "gjkgjkhgjhgkhjh89h98h8hhkjbnmv764857476587hjg"
+
+# QJ4e$95@1bKAXYldOhA0nqq@1q$qJ$mse4r658AIztFF0&rj2%k#Xo4t1Eka

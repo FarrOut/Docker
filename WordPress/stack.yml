@@ -1,0 +1,39 @@
+version: '3.5'
+
+networks:
+ wpnet:
+  driver: overlay
+  attachable: true
+
+volumes:
+ mysql-vol:
+
+services:
+
+  wordpress:
+    image: wordpress
+    ports:
+      - 8000:80
+    deploy:
+     restart_policy:
+      condition: on-failure
+    environment:
+      WORDPRESS_DB_PASSWORD: beans
+
+  cli:
+   image: wordpress:cli
+   networks:
+    - wpnet   
+   deploy:
+    restart_policy:
+     condition: on-failure   
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+     - mysql-vol:/var/lib/mysql
+    deploy:
+     restart_policy:
+      condition: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: beans
