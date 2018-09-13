@@ -1,14 +1,28 @@
 version: "3"
 services:
-    jenkins:
+    master:
         image: jenkins
         ports:
             - "8080:8080"
             - "50000:50000"
         volumes:
             - "jenkins-data:/var/jenkins_home"
+        networks:
+            - jenkins_swarm
         deploy:
             restart_policy:
                 condition: on-failure
+    worker:
+        image: jenkins/jnlp-slave
+        environment:
+            - JENKINS_URL="http://LTP-48:50000"
+        networks:
+            - jenkins_swarm
+        deploy:
+            replicas: 5
+        
 volumes:
     jenkins-data:
+    
+networks:
+  jenkins_swarm:
