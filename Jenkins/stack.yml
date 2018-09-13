@@ -1,0 +1,14 @@
+version: "3"
+services:
+    jenkins:
+        image: jenkins
+        ports:
+            - "8080:8080"
+            - "50000:50000"
+        volumes:
+            - "jenkins-data:/var/jenkins_home"
+        deploy:
+            restart_policy:
+                condition: on-failure
+volumes:
+    jenkins-data:
