@@ -25,11 +25,26 @@ services:
             restart_policy:
                 condition: on-failure
 
+    youtrack:
+        image: esycat/youtrack:latest
+        ports:
+            - "9182:8080"
+        volumes:
+            - "youtrack-data:/var/lib/youtrack"
+            - "youtrack-conf:/opt/youtrack/conf"
+        networks:
+            - overlay
+        deploy:
+            restart_policy:
+                condition: on-failure
+
 volumes:
     hub-data:
     hub-conf:
     upsource-data:
     upsource-conf:
+    youtrack-data:
+    youtrack-conf:
 
 networks:
   overlay:
