@@ -1,28 +1,29 @@
 version: "3"
 services:
     master:
-        image: jenkins/jenkins:lts
+        image: jenkinsci/blueocean:latest
         ports:
             - "9080:8080"
             - "50000:50000"
         volumes:
-            - "jenkins-data:/var/jenkins_home"
+            - "jenkins-data:/var/jenkins_home"            
         networks:
-            - backend
+            - overlay
         deploy:
             restart_policy:
                 condition: on-failure
     worker:
         image: jenkins/jnlp-slave
         environment:
-            - JENKINS_URL="http://LTP-48:50000"
+            - JENKINS_URL="http://jenkins_master:50000"
         networks:
-            - backend
+            - overlay
         deploy:
-            replicas: 5
-        
+            replicas: 0
+
 volumes:
     jenkins-data:
-    
+
 networks:
-  backend:
+  overlay:
+    driver: overlay

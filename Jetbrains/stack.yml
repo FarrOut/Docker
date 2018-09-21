@@ -1,0 +1,22 @@
+version: "3"
+services:
+    hub:
+        image: esycat/jetbrains-hub:latest
+        ports:
+            - "9180:8080"
+        volumes:
+            - "hub-data:/var/lib/hub"
+            - "hub-conf:/opt/hub/conf"
+        networks:
+            - overlay
+        deploy:
+            restart_policy:
+                condition: on-failure
+
+volumes:
+    hub-data:
+    hub-conf:
+
+networks:
+  overlay:
+    driver: overlay
