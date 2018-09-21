@@ -12,10 +12,24 @@ services:
         deploy:
             restart_policy:
                 condition: on-failure
+    upsource:
+        image: esycat/upsource:latest
+        ports:
+            - "9181:8080"
+        volumes:
+            - "upsource-data:/var/lib/upsource"
+            - "upsource-conf:/opt/upsoruce/conf"
+        networks:
+            - overlay
+        deploy:
+            restart_policy:
+                condition: on-failure
 
 volumes:
     hub-data:
     hub-conf:
+    upsource-data:
+    upsource-conf:
 
 networks:
   overlay:
