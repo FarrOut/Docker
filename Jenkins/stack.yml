@@ -6,23 +6,25 @@ services:
             - "9080:8080"
             - "50000:50000"
         volumes:
-            - "jenkins-data:/var/jenkins_home"            
+            - "data:/var/jenkins_home"
         networks:
             - overlay
         deploy:
             restart_policy:
                 condition: on-failure
+        environment:
+          JAVA_ARGS : "-Xmx1048m -XX:MaxPermSize=512m"
     worker:
         image: jenkins/jnlp-slave
         environment:
-            - JENKINS_URL="http://jenkins_master:50000"
+            - JENKINS_URL="http://LTP-48:50000"
         networks:
             - overlay
         deploy:
             replicas: 0
 
 volumes:
-    jenkins-data:
+    data:
 
 networks:
   overlay:

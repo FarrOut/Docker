@@ -23,7 +23,7 @@ services:
             - overlay
         deploy:
             restart_policy:
-                condition: on-failure
+                condition: on-failure  
 
     youtrack:
         image: esycat/youtrack:latest
