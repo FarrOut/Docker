@@ -1,0 +1,20 @@
+version: "3"
+services:
+    runner:
+        image: gitlab/gitlab-runner:latest
+        volumes:
+            - "data:/etc/gitlab-runner"
+            - "sock:/var/run/docker.sock"
+        networks:
+            - overlay
+        deploy:
+            restart_policy:
+                condition: on-failure
+
+volumes:
+    data:
+    sock:
+
+networks:
+  overlay:
+    driver: overlay
