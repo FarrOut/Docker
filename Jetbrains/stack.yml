@@ -5,46 +5,36 @@ services:
         ports:
             - "9180:8080"
         volumes:
-            - "hub-data:/var/lib/hub"
-            - "hub-conf:/opt/hub/conf"
+            - "hub_data:/var/lib/hub"
+            - "hub_conf:/opt/hub/conf"
         networks:
             - overlay
-        deploy:
-            restart_policy:
-                condition: on-failure
     upsource:
         image: esycat/upsource:latest
         ports:
             - "9181:8080"
         volumes:
-            - "upsource-data:/var/lib/upsource"
-            - "upsource-conf:/opt/upsoruce/conf"
+            - "upsource_data:/var/lib/upsource"
+            - "upsource_conf:/opt/upsoruce/conf"
         networks:
             - overlay
-        deploy:
-            restart_policy:
-                condition: on-failure  
-
     youtrack:
         image: esycat/youtrack:latest
         ports:
             - "9182:8080"
         volumes:
-            - "youtrack-data:/var/lib/youtrack"
-            - "youtrack-conf:/opt/youtrack/conf"
+            - "youtrack_data:/var/lib/youtrack"
+            - "youtrack_conf:/opt/youtrack/conf"
         networks:
             - overlay
-        deploy:
-            restart_policy:
-                condition: on-failure
 
 volumes:
-    hub-data:
-    hub-conf:
-    upsource-data:
-    upsource-conf:
-    youtrack-data:
-    youtrack-conf:
+    hub_data:
+    hub_conf:
+    upsource_data:
+    upsource_conf:
+    youtrack_data:
+    youtrack_conf:
 
 networks:
   overlay:
