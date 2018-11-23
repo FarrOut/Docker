@@ -7,24 +7,45 @@ services:
             - "50000:50000"
         volumes:
             - "data:/var/jenkins_home"
+            #- "${USERPROFILE}\\.m2:/maven"
+            - "agent:/home/jenkins"
         networks:
             - overlay
-        deploy:
-            restart_policy:
-                condition: on-failure
         environment:
           JAVA_ARGS : "-Xmx1048m -XX:MaxPermSize=512m"
-    worker:
+    jnlp_slave:
         image: jenkins/jnlp-slave
         environment:
-            - JENKINS_URL="http://LTP-48:50000"
+            - JENKINS_URL=http://jenkins_master:8080/computer/JNLP_Slave/slave-agent.jnlp
+            - JENKINS_AGENT_NAME=JNLP_Slave
+            - JENKINS_SECRET=72cfe900807b4ae6e3c06f1d70e2f8ec4bd1de354db1e8439a020cd650fcd905
+            - JENKINS_AGENT_WORKDIR=/home/jenkins
         networks:
             - overlay
+        volumes:
+            - "agent:/home/jenkins"
         deploy:
-            replicas: 0
+            replicas: 1
+    ssh_slave:
+        image: jenkins/ssh-slave
+        environment:
+            - JENKINS_SLAVE_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/4OmsHenUA/pXVpettYVqbyofNjLVfwCB5Z/aDNKyeicx1xhkIwrRVI2LiD+Iz1hqek6WtaHx3Vj66do+3Bs+Yf4VUXKT+/z4dZLjis0uvAmyTDEB3TfCcmhDCNVcNZ7N/L+z4C1xgXPPQ9yvsDRYwZ/JN4fgSOHZZmbpIhDbjGuiMG0+Qm6nXX/I8zxL+Kr3vrqwijIbRtSHUAZyiysGVCO41MtcGmUoBdQaoivrqQKntzNnSjjYVT5Og9R4ypEAZ9TfIoKWHYPg1Q0kqI1xZMuwrSyhFXfc0LQiD0oM6+XbI6xiSrSpnD36KiXi3wLitkfav4vr2o1foiLaydkZ dev@LTP-48
+        networks:
+            - overlay
+        volumes:
+            - "agent:/var/jenkins-agent"
+        deploy:
+            replicas: 1
 
+    registry:
+        image: registry:latest
+        networks:
+          - overlay
+        ports:
+          - "5555:5000"
 volumes:
     data:
+    agent:
 
 networks:
   overlay:

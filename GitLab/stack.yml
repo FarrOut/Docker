@@ -1,7 +1,7 @@
 version: "3"
 services:
     runner:
-        image: gitlab/gitlab-runner:latest
+        image: registry.gitlab.com/farrout/gitlab-runner:latest
         volumes:
             - "data:/etc/gitlab-runner"
             - "sock:/var/run/docker.sock"
