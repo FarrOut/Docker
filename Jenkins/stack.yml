@@ -7,7 +7,7 @@ services:
             - "50000:50000"
         volumes:
             - "data:/var/jenkins_home"
-            #- "${USERPROFILE}\\.m2:/maven"
+            - "/var/run/docker.sock:/var/run/docker.sock"
             - "agent:/home/jenkins"
         networks:
             - overlay
@@ -25,7 +25,7 @@ services:
         volumes:
             - "agent:/home/jenkins"
         deploy:
-            replicas: 1
+            replicas: 0
     ssh_slave:
         image: jenkins/ssh-slave
         environment:
@@ -35,7 +35,7 @@ services:
         volumes:
             - "agent:/var/jenkins-agent"
         deploy:
-            replicas: 1
+            replicas: 0
 
     registry:
         image: registry:latest

@@ -28,11 +28,6 @@ services:
         networks:
             - overlay
 
-# You will need to run the following command in Windows to forward the port open to the Hub container from the host machine:
-#
-# netsh interface portproxy add v4tov4 listenaddress=jetbrains_hub listenport=8080 connectaddress=127.0.0.1 connectport=9180
-#
-
 volumes:
     hub_data:
     hub_conf:
